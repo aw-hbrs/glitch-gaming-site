@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glitch Gaming</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff00ff;
+            --bg-color: #050505;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .font-orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .font-tech {
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0),
+                rgba(255, 255, 255, 0) 50%,
+                rgba(0, 0, 0, 0.2) 50%,
+                rgba(0, 0, 0, 0.2)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.6;
+        }
+
+        .glitch-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch {
+            position: relative;
+            color: white;
+            font-size: 4rem;
+            line-height: 1.1;
+            text-transform: lowercase;
+            text-align: center;
+        }
+
+        @media (min-width: 768px) {
+            .glitch {
+                font-size: 6rem;
+            }
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+        }
+
+        /* Cyan Glitch Layer */
+        .glitch::before {
+            left: 3px;
+            text-shadow: -2px 0 var(--neon-cyan);
+            clip-path: inset(20% 0 80% 0);
+            animation: glitch-anim-1 2s infinite linear alternate-reverse;
+            z-index: -1;
+        }
+
+        /* Magenta Glitch Layer */
+        .glitch::after {
+            left: -3px;
+            text-shadow: -2px 0 var(--neon-magenta), 2px 2px var(--neon-magenta);
+            clip-path: inset(80% 0 10% 0);
+            animation: glitch-anim-2 3s infinite linear alternate-reverse;
+            z-index: -2;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip-path: inset(20% 0 80% 0); }
+            20% { clip-path: inset(60% 0 10% 0); }
+            40% { clip-path: inset(40% 0 50% 0); }
+            60% { clip-path: inset(80% 0 5% 0); }
+            80% { clip-path: inset(10% 0 70% 0); }
+            100% { clip-path: inset(30% 0 50% 0); }
+        }
+
+        @keyframes glitch-anim-2 {
+            0% { clip-path: inset(10% 0 60% 0); }
+            20% { clip-path: inset(30% 0 20% 0); }
+            40% { clip-path: inset(70% 0 10% 0); }
+            60% { clip-path: inset(20% 0 50% 0); }
+            80% { clip-path: inset(50% 0 30% 0); }
+            100% { clip-path: inset(5% 0 80% 0); }
+        }
+
+        .cyber-btn {
+            position: relative;
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 10px rgba(0, 243, 255, 0.4), inset 0 0 10px rgba(0, 243, 255, 0.2);
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.8);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.4), transparent);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+
+        .cyber-btn:hover {
+            color: #000;
+            background: var(--neon-cyan);
+            box-shadow: 0 0 20px var(--neon-cyan), inset 0 0 10px var(--neon-cyan);
+            text-shadow: none;
+        }
+
+        .cyber-btn:hover::before {
+            left: 100%;
+        }
+        
+        .cyber-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col items-center justify-center min-h-screen relative text-gray-200">
+
+    <!-- CRT Scanline Overlay -->
+    <div class="scanlines"></div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 flex flex-col items-center justify-center px-6 text-center w-full max-w-4xl mx-auto space-y-12">
+        
+        <!-- Glitch Logo Text -->
+        <div class="glitch-wrapper mb-2">
+            <h1 class="glitch font-orbitron font-black tracking-widest drop-shadow-lg" data-text="glitch gaming">
+                glitch<br>gaming
+            </h1>
+        </div>
+        
+        <!-- Subtext -->
+        <p class="font-tech text-lg md:text-2xl text-gray-400 max-w-lg mx-auto leading-relaxed border-l-2 border-fuchsia-500 pl-4 text-left">
+            > We make awesome apps for the TCG world_
+        </p>
+        
+        <!-- Call to Action Button -->
+        <a href="mailto:contact@glitchgaming.co" class="cyber-btn font-tech inline-flex items-center justify-center px-8 py-4 text-sm md:text-base font-bold outline-none cursor-pointer mt-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            contact@glitchgaming.co
+        </a>
+        
+    </main>
+
+</body>
+</html>
